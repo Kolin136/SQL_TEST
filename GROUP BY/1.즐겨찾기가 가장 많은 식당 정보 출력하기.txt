@@ -1,0 +1,12 @@
+SELECT FOOD_TYPE,REST_ID,REST_NAME,FAVORITES
+FROM REST_INFO 
+WHERE FAVORITES IN (SELECT MAX(FAVORITES) 
+                    FROM REST_INFO 
+                    GROUP BY FOOD_TYPE)
+GROUP BY FOOD_TYPE
+ORDER BY FOOD_TYPE DESC
+
+
+WHERE문 안에서 그룹화 했는데 밖에서 또 그룹화 하는 이유는 WHERE문 안에서 각 FOOD_TYPE 타입별로 최대값 뽑아서 예를들어 (한식100,일식230,중식734)있다하고 
+전체 테이블 자체에서 FAVORITES 에 타입별로 최댓값에 해당 하는거 필터하는데 만약 100에 해당하는게 한식뿐 아니고 일식도 있다면
+일식 230 ,일식 100 이렇게 있으므로 또 GROUP BY을 해줘야하는거다.
